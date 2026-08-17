@@ -1,7 +1,7 @@
 name: Build PC-Doctor-Lite EXE
 
 on:
-  workflow_dispatch:  # 手动触发按钮
+  workflow_dispatch:
   push:
     branches: [main, master]
 
@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -26,7 +26,8 @@ jobs:
       - name: Download BlueScreenView
         run: |
           mkdir -p tools
-          Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/bluescreenview.zip" -OutFile "tools/bluescreenview.zip"
+          $headers = @{ "User-Agent" = "Mozilla/5.0" }
+          Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/bluescreenview.zip" -OutFile "tools/bluescreenview.zip" -Headers $headers
           Expand-Archive -Path "tools/bluescreenview.zip" -DestinationPath "tools/" -Force
 
       - name: Build EXE with PyInstaller
