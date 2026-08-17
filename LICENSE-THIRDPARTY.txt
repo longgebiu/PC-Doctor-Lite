@@ -1,0 +1,38 @@
+PC-Doctor-Lite Third-Party Licenses
+=====================================
+
+This product bundles the following third-party software, each with its own license:
+
+1. LibreHardwareMonitor (MPL-2.0)
+   - Copyright (c) 2016-2026 LibreHardwareMonitor
+   - License: Mozilla Public License 2.0
+   - Source: https://github.com/LibreHardwareMonitor/LibreHardwareMonitor
+
+2. CrystalDiskInfo (MIT)
+   - Copyright (c) 2008-2026 CrystalDew World
+   - License: MIT License
+   - Source: https://github.com/hiyohiyo/CrystalDiskInfo
+
+3. BlueScreenView (NirSoft Freeware)
+   - Copyright (c) NirSoft
+   - License: Freeware, not for commercial redistribution
+   - Source: https://www.nirsoft.net/utils/bluescreenview.html
+
+4. psutil (BSD 3-Clause)
+   - Copyright (c) 2009, Jay Loden, Dave Daeschler, Giampaolo Rodola
+   - License: BSD 3-Clause License
+   - Source: https://github.com/giampaolo/psutil
+
+5. WMI (Python wrapper - MIT)
+   - License: MIT
+   - Source: https://github.com/tjguk/wmi
+
+6. PyInstaller (GPL-2.0 with commercial license exception)
+   - Used only at build time, not bundled in the final executable.
+   - License: GPL-2.0
+   - Source: https://github.com/pyinstaller/pyinstaller
+
+The main program (PC-Doctor-Lite) is copyright (c) 2026 fsadmin,
+provided as-is for personal use only.
+
+For full license texts, see the respective project repositories.

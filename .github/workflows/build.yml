@@ -1,0 +1,51 @@
+name: Build PC-Doctor-Lite EXE
+
+on:
+  workflow_dispatch:  # 手动触发按钮
+  push:
+    branches: [main, master]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install psutil wmi pywin32 pyinstaller
+
+      - name: Download BlueScreenView
+        run: |
+          mkdir -p tools
+          Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/bluescreenview.zip" -OutFile "tools/bluescreenview.zip"
+          Expand-Archive -Path "tools/bluescreenview.zip" -DestinationPath "tools/" -Force
+
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller --onefile --windowed --name "PC-Doctor-Lite" --add-data "report-template;report-template" --hidden-import wmi --hidden-import pywin32 source/pc_doctor_lite.py
+
+      - name: Package release zip
+        run: |
+          mkdir -p release
+          copy "dist\PC-Doctor-Lite.exe" "release\"
+          copy "README.txt" "release\"
+          copy "LICENSE-THIRDPARTY.txt" "release\"
+          copy "蓝屏代码速查表.md" "release\"
+          if (Test-Path "tools") { Copy-Item "tools" "release\" -Recurse }
+          Compress-Archive -Path "release\*" -DestinationPath "PC-Doctor-Lite-v1.0.zip" -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PC-Doctor-Lite-EXE
+          path: PC-Doctor-Lite-v1.0.zip
+          retention-days: 30

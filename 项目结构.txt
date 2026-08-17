@@ -1,0 +1,47 @@
+PC-Doctor-Lite 项目结构
+═════════════════════════════════════════════
+
+PC-Doctor-Lite/
+│
+├── .github/
+│   └── workflows/
+│       └── build.yml              ← GitHub Actions 自动打包脚本
+│                                     push 或手动触发后，
+│                                     云端 Windows runner 自动：
+│                                      1. 装 Python + 依赖
+│                                      2. 下载 BlueScreenView
+│                                      3. PyInstaller 打 exe
+│                                      4. 打包 zip 供下载
+│
+├── source/
+│   └── pc_doctor_lite.py         ← 主程序（Python, 600 行）
+│                                    功能：硬件采集 + 温度监控 +
+│                                          硬盘检测 + 蓝屏分析 +
+│                                          HTML 报告生成
+│
+├── report-template/
+│   └── template.html             ← HTML 报告模板（备用）
+│
+├── tools/                         ← 放第三方工具便携版
+│   └── README.txt                  说明去哪下载
+│
+├── packaging/
+│   └── build-release.ps1         ← PowerShell 发布脚本
+│
+├── README.txt                     ← 用户使用说明（中文）
+├── README-UPLOAD.md              ← GitHub 上传指南
+├── LICENSE-THIRDPARTY.txt        ← 第三方许可证声明
+├── 蓝屏代码速查表.md           ← 附赠：12 个蓝屏代码人话版
+├── 闲鱼上架文案.txt            ← 标题+主图+详情页+话术
+├── 项目结构.txt                 ← 本文件
+└── build.bat                     ← Windows 一键打包脚本
+
+═════════════════════════════════════════════
+上架闲鱼所需文件（最小集）：
+  1. PC-Doctor-Lite.exe          ← 主程序（打包后生成）
+  2. tools/BlueScreenView.exe    ← 需手动下载放入
+  3. tools/CrystalDiskInfo.exe   ← 需手动下载放入
+  4. README.txt                  ← 已就绪
+  5. LICENSE-THIRDPARTY.txt     ← 已就绪
+  6. 蓝屏代码速查表.md         ← 已就绪
+═════════════════════════════════════════════
