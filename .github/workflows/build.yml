@@ -3,19 +3,16 @@ name: Build PC-Doctor-Lite EXE
 on:
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build-windows:
     runs-on: windows-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -29,7 +26,7 @@ jobs:
           mkdir -p tools
           $headers = @{ "User-Agent" = "Mozilla/5.0" }
           Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/bluescreenview.zip" -OutFile "tools/bluescreenview.zip" -Headers $headers
-          Expand-Archive -Path "tools/bluescreenview.zip" -DestinationPath "tools/" -Force
+          Expand-Archive -Path "tools\bluescreenview.zip" -DestinationPath "tools\" -Force
 
       - name: Build EXE with PyInstaller
         run: |
