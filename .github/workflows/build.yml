@@ -22,24 +22,27 @@ jobs:
           pip install psutil wmi pywin32 pyinstaller
 
       - name: Download BlueScreenView
+        shell: pwsh
         run: |
-          mkdir -p tools
+          if (!(Test-Path "tools")) { New-Item -ItemType Directory -Path "tools" }
           $headers = @{ "User-Agent" = "Mozilla/5.0" }
           Invoke-WebRequest -Uri "https://www.nirsoft.net/utils/bluescreenview.zip" -OutFile "tools/bluescreenview.zip" -Headers $headers
-          Expand-Archive -Path "tools\bluescreenview.zip" -DestinationPath "tools\" -Force
+          Expand-Archive -Path "tools/bluescreenview.zip" -DestinationPath "tools/" -Force
 
       - name: Build EXE with PyInstaller
+        shell: pwsh
         run: |
           pyinstaller --onefile --windowed --name "PC-Doctor-Lite" --add-data "report-template;report-template" --hidden-import wmi --hidden-import pywin32 source/pc_doctor_lite.py
 
       - name: Package release zip
+        shell: pwsh
         run: |
-          mkdir -p release
-          copy "dist\PC-Doctor-Lite.exe" "release\"
-          copy "README.txt" "release\"
-          copy "LICENSE-THIRDPARTY.txt" "release\"
-          copy "蓝屏代码速查表.md" "release\"
-          if (Test-Path "tools") { Copy-Item "tools" "release\" -Recurse }
+          if (!(Test-Path "release")) { New-Item -ItemType Directory -Path "release" }
+          Copy-Item "dist\PC-Doctor-Lite.exe" -Destination "release\"
+          Copy-Item "README.txt" -Destination "release\"
+          Copy-Item "LICENSE-THIRDPARTY.txt" -Destination "release\"
+          Copy-Item "蓝屏代码速查表.md" -Destination "release\"
+          if (Test-Path "tools") { Copy-Item "tools" -Destination "release\" -Recurse }
           Compress-Archive -Path "release\*" -DestinationPath "PC-Doctor-Lite-v1.0.zip" -Force
 
       - name: Upload artifact
